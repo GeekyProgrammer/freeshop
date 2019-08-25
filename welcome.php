@@ -1,74 +1,13 @@
 <?php 
 
-#Script to handle login
 session_start();
 
-#check if user is already logged in
-if(isset($_SESSION['username']))
-{
-
-  header("location: welcome.php");
-  exit;
-}
-
-require_once "config.php";
-
-$username = $password = "";
-$err = "";
-
-if($_SERVER['REQUEST_METHOD'] == "POST")
-{
-  if(empty(trim($_POST['username'])) || empty(trim($_POST['password'])))
-  {
-
-    $err = "Please Enter Username + Password ";
-  }
-  else{
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-  }
-
-  if(empty($err))
-  {
-            
-
-    $sql = "SELECT id,username,password FROM users WHERE username = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $param_username);
-    $param_username = $username;
-
-    # Try executing these statements
-    if (mysqli_stmt_execute($stmt)) 
-    {
-      # code...
-        mysqli_stmt_store_result($stmt);
-
-        if(mysqli_stmt_num_rows($stmt) == 1)
-        {
-          mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
-
-          if(mysqli_stmt_fetch($stmt))
-          {
-            if(password_verify($password, $hashed_password))
-            {
-              # This means password is correct allow user to login
-              session_start();
-              $_SESSION["username"] = $username;
-              $_SESSION["id"] = $id; 
-              $_SESSION["loggedin"] = true;
-
-              #redirect user to welcome page
-              header("location: welcome.php");
-            }
-          }
-
-
-        }
-  }
-}
+if (!isset($_session['loggedin']) || $_session['loggedin'] !== true) {
+	header("location: login.php");
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -94,9 +33,6 @@ img.emoji {
 <link rel='stylesheet' id='easy-facebook-likebox-animate-css'  href='http://freeshopping.co/wp-content/plugins/easy-facebook-likebox/public/assets/css/animate.css?ver=4.3.3' type='text/css' media='all' />
 <link rel='stylesheet' id='easy-facebook-likebox-popup-styles-css'  href='http://freeshopping.co/wp-content/plugins/easy-facebook-likebox/public/assets/popup/magnific-popup.css?ver=4.3.3' type='text/css' media='all' />
 <link rel='stylesheet' id='rs-plugin-settings-css'  href='http://freeshopping.co/wp-content/plugins/revslider/public/assets/css/settings.css?ver=5.1' type='text/css' media='all' />
-<style id='rs-plugin-settings-inline-css' type='text/css'>
-#rs-demo-id {}
-</style>
 <link rel='stylesheet' id='Montserrat-css'  href='http://fonts.googleapis.com/css?family=Montserrat%3A400%2C700&#038;ver=4.6.14' type='text/css' media='all' />
 <link rel='stylesheet' id='Lato-css'  href='http://fonts.googleapis.com/css?family=Lato%3A100%2C300%2C400%2C700%2C900&#038;ver=4.6.14' type='text/css' media='all' />
 <link rel='stylesheet' id='comre-bootstrap-css'  href='http://freeshopping.co/wp-content/themes/freeshopping/css/bootstrap.css?ver=2.0.2' type='text/css' media='all' />
@@ -156,9 +92,9 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
           
                 <ul class="left-bar-side">
 
-                                                            <li> <a href="http://freeshopping.co/sign-up/"><i class="fa fa-lock"></i> Login</a> </li>
-                                                        <li> <a href="http://freeshopping.co/register/"><i class="fa fa-lock"></i> Register</a> </li>
+                                                            <li><strong>Welcome, </strong><?php echo $_SESSION['username']; ?></li>
                                           <li> <a href="http://freeshopping.co/career"><strong>Career with us</strong></a> </li>
+                                          <li><a href="logout.php">Log Out</a></li>
                                          </ul>
 
                         
@@ -212,95 +148,8 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
         <a href="http://freeshopping.co/" title="logo"><img src="img\logo.png" alt="logo"></a>
       </div>
  </div>
-
-<nav>
-
-            <div class="container"> 
-
-
-
-                <!--======= MENU START =========-->
-
-                <ul class="ownmenu"><li class="showhide" style="display: none;"><span class="title"></span><span class="icon fa fa-bars"></span></li>
-                <li id="menu-item-565" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-565" style=""><a title="Home" href="#">Home</a></li>
-                <li id="menu-item-563" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-563" style=""><a title="Freebies" href="#">Freebies</a></li>
-                <li id="menu-item-566" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-566" style=""><a title="Mobile Recharge Offer" href="#">Mobile Recharge Offer</a></li>
-                <li id="menu-item-562" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-562" style=""><a title="Electronics Offer" href="#">Electronics Offer</a></li>
-                <li id="menu-item-567" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-567" style=""><a title="Restaurant Offer" href="#">Restaurant Offer</a></li>
-                <li id="menu-item-569" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-569" style=""><a title="Travels Offer" href="#">Travels Offer</a></li>
-                <li id="menu-item-564" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-564" style=""><a title="Groceries Offer" href="#">Groceries Offer</a></li>
-                        </ul>
-
-
-
-                                <!--======= SUBMIT COUPON =========-->
-                                          <div class="sub-nav-co"> <a href="#">Student Discount</a> </div>
-                                    </div>
-
-</nav>
-
 </header>
 
-<!--======= BANNER =========-->
-<section class="sub-banner" style="background-image:url(http://demos.megawpthemes.com/comre/files/2015/05/sub-bnr-bg8.jpg);">
-  <div class="overlay">
-    <div class="container">
-    <h2>SIGN UP</h2>
-    <ul class="sub-nav"><li><a href="#"><i class="fa fa-home"></i></a>  /  </li><li>SIGN IN</li></ul>  
-    </div>
-  </div>
-</section>
-
-<div class="white-bg" id="portfoli">
-         <div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column col-md-12">
-    
-
- <section class="sign-up">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
-          <h4>Login Here :</h4>
-          <img class="img-responsive" src="" alt=""> </div>
-        
-        <!--======= SIGN UP FORM =========-->
-        <div class="col-sm-6">
-                    <hr>
-                    <form action="" name="loginform" method="post" id="loginform1" class="form form-register">
-            <ul class="row">
-
-              
-              <li class="col-md-6">
-                <div class="form-group">
-                  <label for="lname">User Name *                    <input type="text" name="username" class="form-control" id="user_name" placeholder="">
-                  </label>
-                </div>
-              </li>
-              <li class="col-md-6">
-                <div class="form-group">
-                  <label for="password">Password  *                  <input type="password" name="password" class="form-control" id="password4" placeholder="">
-                  </label>
-                </div>
-              </li>
-              <li class="col-md-6">
-                        <input type="hidden" name="_nounce" value="705cba886d">  
-        <button type="submit" class="btn">Login</button>
-        </li>
-            </ul>
-          </form>
-          
-                          <div class="policy">
-            <p></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  </div>
-</div>
-  </div>
 
 
 
