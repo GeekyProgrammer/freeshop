@@ -2,9 +2,77 @@
 
 require_once "config.php";
 
-echo $login;
-
 session_start();
+
+if (isset($_SESSION['loggedin'])) {
+  # code...
+
+  if($_SERVER['REQUEST_METHOD'] == "POST")
+  {
+    if(empty(trim($_POST['contact_name'])) || empty(trim($_POST['contact_email'])) || empty(trim($_POST['contact_message'])) )
+    {
+
+      $err = "Please fill up all the Fields. ";
+    }
+
+    else{
+
+      $contact_name = trim($_POST['contact_name']);
+      $contact_email = trim($_POST['contact_email']);
+      $contact_message = trim($_POST['contact_message']);
+    }
+
+    if(empty($err))
+    {
+      $sql = "INSERT INTO contactus (name, email, message ) VALUES (?, ?, ?)";
+      $stmt = mysqli_prepare($conn, $sql);
+
+      if($stmt) {
+
+
+        mysqli_stmt_bind_param($stmt, "sss", $param_cname, $param_cemail, $param_cmessage);
+
+        #set the parameters
+        $param_cname = $contact_name;
+        $param_cemail = $contact_email;
+        $param_cmessage = $contact_message;
+
+        #try executing Query
+
+        if(mysqli_stmt_execute($stmt))
+        {
+          
+          
+
+          #Sending Mail to admin
+          $to = "meetthakkar05@gmail.com";
+          $subject = $contact_name ." wants to Contact with You";
+          $txt = "Sender address : ".$contact_email. "\n Message : ".$contact_message;
+          $headers = "From: ". $contact_email . "\r\n" .
+          "CC: meetthakkar05@gmail.com";
+
+          mail($to,$subject,$txt,$headers);
+
+
+          #redirecting to contact page again
+          header("location: contact.php");
+
+        }
+        else
+        {
+          echo "Something Went Wrong While Redirecting!!!";
+        }
+
+
+      }
+
+      mysqli_stmt_close($stmt);
+
+    }
+
+    mysqli_close($conn);
+  }
+}
 
 
 
@@ -251,13 +319,7 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
                   <input type="text" class="form-control" name="contact_email" id="contact_email" placeholder="Email">
                 </li>
                 <li>
-                  <input type="text" class="form-control" name="contact_company" id="contact_company" placeholder="Company">
-                </li>
-                <li>
-                  <input type="text" class="form-control" name="contact_website" id="contact_website" placeholder="Website">
-                </li>
-                <li>
-                  <textarea class="form-control" name="contact_message" id="contact_message" rows="5" placeholder="Message" style="resize: none;"></textarea>
+                  <textarea class="form-control" name="contact_message" id="message" rows="5" placeholder="Message" style="resize: none;"></textarea>
                 </li>
                 <li>
                   <button type="submit" value="submit" class="btn" id="submit">SEND MESSAGE</button>
