@@ -1,12 +1,14 @@
 <?php 
 
+require_once "config.php";
+
+echo $login;
+
 session_start();
 
-#if (!isset($_session['loggedin']) || $_session['loggedin'] != true) {
-	#header("location: login.php");
-#}
 
-?>
+
+ ?>
 
 
 <!DOCTYPE html>
@@ -92,10 +94,49 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
           
                 <ul class="left-bar-side">
 
-                                                            <li><strong>Welcome, </strong><?php echo $_SESSION['username']; ?></li>
+                  <?php 
+
+                  
+
+                    
+
+                    if(isset($_SESSION['loggedin'])){
+                      echo "<li>";
+                        echo "<strong>Welcome, </strong>";
+                        echo $_SESSION['username'];
+                      echo "</li>";
+                    }
+
+                    else{
+
+                      
+
+                      
+                      echo "<li> ";
+                      echo "<a href=\"login.php\">";
+                      echo "<i class=\"fa fa-lock\"></i> Login</a>" ;
+                      echo "</li>";
+                      echo "<li> <a href=\"register.php\">";
+                      echo"<i class=\"fa fa-lock\"></i> Register</a>" ;
+                      echo "</li>";
+                    }
+
+                   ?>
+
                                           <li> <a href="http://freeshopping.co/career"><strong>Career with us</strong></a> </li>
-                                          <li><a href="logout.php">Log Out</a></li>
-                                         </ul>
+                                         
+
+                                         <?php 
+
+
+                                           if($_SESSION['loggedin'] == true){
+
+                                            echo "<li><a href=\"logout.php\">Log Out</a></li>";
+                                           }
+                                            
+
+                                          ?>
+                                          </ul>
 
                         
                 <ul class="right-bar-side social_icons">
@@ -145,10 +186,124 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
   <div class="container"> 
  <!--======= LOGO =========-->
       <div class="logo"> 
-        <a href="http://freeshopping.co/" title="logo"><img src="img\logo.png" alt="logo"></a>
+        <a href="img/logo.png" title="logo"><img src="img\logo.png" alt="logo"></a>
       </div>
  </div>
+
+ <nav>
+
+            <div class="container"> 
+
+
+
+                <!--======= MENU START =========-->
+
+                <ul class="ownmenu"><li class="showhide" style="display: none;"><span class="title"></span><span class="icon fa fa-bars"></span></li>
+                <li id="menu-item-565" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-565" style=""><a title="Home" href="#">Home</a></li>
+                <li id="menu-item-563" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-563" style=""><a title="Freebies" href="#">Freebies</a></li>
+                <li id="menu-item-566" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-566" style=""><a title="Mobile Recharge Offer" href="#">Mobile Recharge Offer</a></li>
+                <li id="menu-item-562" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-562" style=""><a title="Electronics Offer" href="#">Electronics Offer</a></li>
+                <li id="menu-item-567" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-567" style=""><a title="Restaurant Offer" href="#">Restaurant Offer</a></li>
+                <li id="menu-item-569" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-569" style=""><a title="Travels Offer" href="#">Travels Offer</a></li>
+                <li id="menu-item-564" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-564" style=""><a title="Groceries Offer" href="#">Groceries Offer</a></li>
+                        </ul>
+
+
+
+                                <!--======= SUBMIT COUPON =========-->
+                                          <div class="sub-nav-co"> <a href="#">Student Discount</a> </div>
+                                    </div>
+
+</nav>
 </header>
+
+<!--======= SLIDER HERE =========-->
+
+
+<div class="white-bg" id="portfoli">
+         <div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column col-md-12">
+    <div class="wpb_gmaps_widget wpb_content_element">
+    <div class="wpb_wrapper">
+    <div class="wpb_map_wraper">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60330.16866686605!2d72.8577860807526!3d19.0797552835209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c888ca747e51%3A0x56935ec4ad1b895f!2sFreeShopping!5e0!3m2!1sen!2sin!4v1449339779247" width="600" height="450" frameborder="0" style="border:0" allowfullscreen=""></iframe>   </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+<div class="vc_row wpb_row vc_row-fluid contact-info"><div class="container"><div class="wpb_column col-md-6">
+    
+
+
+            
+
+
+<div class="contact-form">
+
+            <div id="message"></div>
+            <form role="form" name="contact_form" method="post" id="contact_form" action="">
+              <ul>
+                <li>
+                  <input type="text" class="form-control" name="contact_name" id="contact_name" placeholder="Name">
+                </li>
+                <li>
+                  <input type="text" class="form-control" name="contact_email" id="contact_email" placeholder="Email">
+                </li>
+                <li>
+                  <input type="text" class="form-control" name="contact_company" id="contact_company" placeholder="Company">
+                </li>
+                <li>
+                  <input type="text" class="form-control" name="contact_website" id="contact_website" placeholder="Website">
+                </li>
+                <li>
+                  <textarea class="form-control" name="contact_message" id="contact_message" rows="5" placeholder="Message" style="resize: none;"></textarea>
+                </li>
+                <li>
+                  <button type="submit" value="submit" class="btn" id="submit">SEND MESSAGE</button>
+                </li>
+              </ul>
+            </form>
+          </div>
+      
+
+
+  </div>
+<div class="wpb_column col-md-6">
+                  <h3>Get in Touch</h3>
+              <p></p>
+              <ul class="con-det">
+                
+                <!--======= ADDRESS =========-->
+                        <li> <i class="fa fa-map-marker"></i>
+                  <h6>Address</h6>
+                  <p>R-1,L-5,Milind nagar,Land mark-Kohinoor city.kurla west,Mumbai -400070</p>
+                </li>
+                                <!--======= EMAIL =========-->
+                        <li> <i class="fa fa-envelope"></i>
+                  <h6>email</h6>
+                  <p>info@freeshopping.co</p>
+                </li>
+                                <!--======= ADDRESS =========-->
+                        <li> <i class="fa fa-phone"></i>
+                  <h6>our phone</h6>
+                  <p>+91 9999999999</p>
+                </li>
+                      </ul>
+              
+              <!--======= SOCIAL ICON =========-->
+              
+
+  </div>
+</div></div><p></p>
+  </div>
+
+
+
+
+
+
+
 
 
 

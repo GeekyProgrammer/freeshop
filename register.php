@@ -375,7 +375,7 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
 <li id="menu-item-611" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-611"><a href="#">Career With Us</a></li>
 <li id="menu-item-615" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-615"><a href="#">Media Contact</a></li>
 <li id="menu-item-614" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-614"><a href="#">Investors</a></li>
-<li id="menu-item-612" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-612"><a href="#">Contact Us</a></li>
+<li id="menu-item-612" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-612"><a href="contact.php">Contact Us</a></li>
 </ul></div></li><li id="nav_menu-4" class="col-sm-4 widget_nav_menu"><h6>SUPPORT</h6><div class="menu-footerb-container"><ul id="menu-footerb" class="menu"><li id="menu-item-619" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-619"><a href="#">Advertise With Us</a></li>
 <li id="menu-item-622" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-622"><a href="#">Campus Ambassador</a></li>
 <li id="menu-item-621" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-621"><a href="#">Feedback</a></li>
