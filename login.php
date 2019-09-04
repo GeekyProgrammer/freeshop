@@ -1,3 +1,4 @@
+
 <?php 
 
 require_once "config.php";
@@ -9,7 +10,7 @@ session_start();
 if(isset($_SESSION['username']))
 {
 
-  header("location: welcome.php");
+  header("location: index.php");
   exit;
 }
 
@@ -23,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   if(empty(trim($_POST['username'])) || empty(trim($_POST['password'])))
   {
 
-    $err = "Please Enter Username + Password ";
+    $err = "";
   }
   else{
     $username = trim($_POST['username']);
@@ -37,20 +38,22 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     $sql = "SELECT id,username,password FROM users WHERE username = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "s", $param_username);
-    $param_username = $username;
+    $param_username = trim($username);
 
     # Try executing these statements
     if (mysqli_stmt_execute($stmt)) 
     {
-      # code...
+
         mysqli_stmt_store_result($stmt);
 
         if(mysqli_stmt_num_rows($stmt) == 1)
         {
+
           mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
 
           if(mysqli_stmt_fetch($stmt))
           {
+
             if(password_verify($password, $hashed_password))
             {
               # This means password is correct allow user to login
@@ -61,17 +64,54 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
               $_SESSION["loggedin"] = true;
 
               #redirect user to welcome page
-              header("location: welcome.php");
+              header("location: index.php");
+            }
+            else 
+            {
+               $err = "Invalid Username or Password ";
             }
           }
-
-
         }
-  }
+
+        else
+        {
+            $err = "not in DB ";
+         } 
+    }
+    
+
 }
+
 }
 
 ?>
+<script type="text/javascript">
+  
+  
+  function validate()
+  {
+    var err = '<?php  echo($err); ?>';
+
+    if (err != ""){
+
+      var uerr = document.getElementById("user_name");
+      uerr.textContent = "*" + err;
+      return false;
+
+    }
+
+    else 
+    {
+      return true;
+    }
+
+  }
+
+</script>
+
+
+
+
 
 <!DOCTYPE html>
 <html>
@@ -268,25 +308,28 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
         <!--======= SIGN UP FORM =========-->
         <div class="col-sm-6">
                     <hr>
-                    <form action="" name="loginform" method="post" id="loginform1" class="form form-register">
+                    <form action="" name="loginform" method="post" id="loginform1" class="form form-register" onsubmit="return validate()">
             <ul class="row">
 
               
               <li class="col-md-6">
                 <div class="form-group">
-                  <label for="lname">User Name *                    <input type="text" name="username" class="form-control" id="user_name" placeholder="">
-                  </label>
+                  <label for="lname">User Name *                    <input type="text" name="username" class="form-control" id="username" placeholder="" required oninvalid="this.setCustomValidity('Enter valid Username ')" oninput="this.setCustomValidity('')">
+                    
+                  </label>              
                 </div>
               </li>
               <li class="col-md-6">
                 <div class="form-group">
-                  <label for="password">Password  *                  <input type="password" name="password" class="form-control" id="password4" placeholder="">
+                  <label for="password">Password  *                  <input type="password" name="password" class="form-control" id="password4" placeholder="" required oninvalid="this.setCustomValidity('Password cannot be Empty')" oninput="this.setCustomValidity('')">
                   </label>
                 </div>
               </li>
+
               <li class="col-md-6">
-                        <input type="hidden" name="_nounce" value="705cba886d">  
-        <button type="submit" class="btn">Login</button>
+                <span id="user_name" style="color: red;"></span>
+                         
+        <input type="submit" class="btn" value="Login">
         </li>
             </ul>
           </form>

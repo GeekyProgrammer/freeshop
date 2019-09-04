@@ -7,6 +7,8 @@ define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'Login');
+define('admin_uname', 'Admin');
+define('admin_pass', 'Admin@123');
 $login = false;
 
 # Trying to connect 

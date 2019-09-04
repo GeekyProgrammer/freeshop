@@ -1,3 +1,58 @@
+<?php 
+
+require_once "config.php";
+
+
+session_start();
+
+
+if(isset($_SESSION['uname']))
+{
+  header("location: dbpage.php");
+  exit;
+}
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST")
+{
+
+	echo ($_POST['username']);
+	if(empty(trim($_POST['username'])) || empty(trim($_POST['password'])))
+  	{
+
+    	$err = "something wrong ";
+  	}
+  	else
+  	{
+    	$username = trim($_POST['username']);
+    	$password = trim($_POST['password']);
+  	}
+
+  	if ($username == $admin_uname && $password == $admin_pass) 
+  	{
+
+  		session_start();
+  		$_SESSION['uname'] = $admin_uname;
+  		header("location: dbpage.php");
+
+  	}
+
+  	else 
+  	{
+  		header("location: dashboard.php");
+  	}
+
+}
+ #else
+ #{
+ 	#header("location: dashboard.php");
+ #}
+
+
+
+ ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,12 +85,12 @@
 <body>
 	
 	<div class="limiter">
-		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+		<div class="container-login100" style="background-image: url('images/adbg.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
 					Admin Panel Login
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5">
+				<form class="login100-form validate-form p-b-33 p-t-5" method="POST" action="">
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
 						<input class="input100" type="text" name="username" placeholder="User name">
@@ -43,14 +98,12 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-32">
-						<button class="login100-form-btn">
-							Login
-						</button>
+						<input type="submit" value="Login"  class="login100-form-btn">
 					</div>
 
 				</form>

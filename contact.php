@@ -54,8 +54,10 @@ if (isset($_SESSION['loggedin'])) {
           mail($to,$subject,$txt,$headers);
 
 
+          echo "<script> alert(' Thank You, Our Team will Reach You Out Soon ')</script>";
           #redirecting to contact page again
           header("location: contact.php");
+
 
         }
         else
@@ -72,6 +74,13 @@ if (isset($_SESSION['loggedin'])) {
 
     mysqli_close($conn);
   }
+}
+
+else
+{
+  echo "<script> confirm(' Please Login to Send Queries ')</script>";
+  
+
 }
 
 

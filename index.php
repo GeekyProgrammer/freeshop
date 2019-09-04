@@ -1,10 +1,20 @@
 <?php 
 
+require_once "config.php";
+
 session_start();
 
-#if (!isset($_session['loggedin']) || $_session['loggedin'] != true) {
-	#header("location: login.php");
-#}
+if(isset($_SESSION['loggedin']) == false) {
+  header("location: login.php");
+}
+
+else
+{
+  #if logged in then show the coupons.
+  $sql = mysqli_query($conn, "SELECT * FROM OFFERS");
+  $data = mysqli_fetch_all($sql);
+  $count = count($data);
+}
 
 ?>
 
@@ -92,9 +102,37 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
           
                 <ul class="left-bar-side">
 
-                                                            <li><strong>Welcome, </strong><?php echo $_SESSION['username']; ?></li>
+                <?php  
+
+                  if (isset($_SESSION['loggedin']))
+                  {
+                    echo "<li><strong>Welcome, </strong>";
+                    echo $_SESSION["username"] . '</li>';
+                  }
+
+                  else
+                  {
+                    echo '<li> <a href="login.php"><i class="fa fa-lock"></i> Login</a> </li>';
+                    echo '<li> <a href="register.php"><i class="fa fa-lock"></i> Register</a> </li>';
+                  }
+
+
+                  ?>
+
+                                                 
                                           <li> <a href="http://freeshopping.co/career"><strong>Career with us</strong></a> </li>
-                                          <li><a href="logout.php">Log Out</a></li>
+
+                                          <?php 
+
+
+                                           if($_SESSION['loggedin'] == true){
+
+                                            echo "<li><a href=\"logout.php\">Log Out</a></li>";
+                                           }
+                                            
+
+                                          ?>
+                                          
                                          </ul>
 
                         
@@ -145,10 +183,105 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
   <div class="container"> 
  <!--======= LOGO =========-->
       <div class="logo"> 
-        <a href="http://freeshopping.co/" title="logo"><img src="img\logo.png" alt="logo"></a>
+        <a href="#" title="logo"><img src="img\logo.png" alt="logo"></a>
       </div>
  </div>
+
+ <nav>
+
+            <div class="container"> 
+
+
+
+                <!--======= MENU START =========-->
+
+                <ul class="ownmenu"><li class="showhide" style="display: none;"><span class="title"></span><span class="icon fa fa-bars"></span></li>
+                <li id="menu-item-565" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-565" style=""><a title="Home" href="#">Home</a></li>
+                <li id="menu-item-563" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-563" style=""><a title="Freebies" href="#">Freebies</a></li>
+                <li id="menu-item-566" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-566" style=""><a title="Mobile Recharge Offer" href="#">Mobile Recharge Offer</a></li>
+                <li id="menu-item-562" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-562" style=""><a title="Electronics Offer" href="#">Electronics Offer</a></li>
+                <li id="menu-item-567" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-567" style=""><a title="Restaurant Offer" href="#">Restaurant Offer</a></li>
+                <li id="menu-item-569" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-569" style=""><a title="Travels Offer" href="#">Travels Offer</a></li>
+                <li id="menu-item-564" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-564" style=""><a title="Groceries Offer" href="#">Groceries Offer</a></li>
+                        </ul>
+
+
+
+                                <!--======= SUBMIT COUPON =========-->
+                                          <div class="sub-nav-co"> <a href="#">Student Discount</a> </div>
+                                    </div>
+
+</nav>
 </header>
+
+
+<section class="great-deals">
+  <div class="container"> 
+    <!--======= TITTLE =========-->
+    <div class="tittle"> 
+      <h3>Home Page Offers</h3>
+    </div>
+
+
+ <div class="search">
+              <form action="index.php" method="get">
+
+<select class="form-control" name="post_type">
+
+    <option>All</option>
+
+          <option value="post">Blog Posts</option>
+        <option value="product">Products</option>
+        <option value="sh_coupons">Coupons</option>
+  
+</select>
+<input class="form-control" name="s" value="" placeholder="Enter your keyword...">
+
+<button type="submit"><i class="fa fa-search"></i></button>
+
+</form> </div>
+
+
+    <div class="coupon">
+                
+      <ul class="row _great_deals">
+
+        <br>
+
+        <?php 
+
+       
+
+        foreach ($data as $item) 
+        {
+          echo " <li class=\"col-sm-4\">
+          <div class=\"coupon-inner\">
+            <div class=\"top-tag\"> <span class=\"ribn-red\"><span>offer</span></span> <span class=\"star\"><i class=\"fa fa-star-o\"></i></span> </div>
+            <a href=\"#\"></a><div class=\"c-img\"><a href=\"#\">
+              <img width=\"324\" height=\"143\" src=\"img/". $item[4] . "\" class=\"img-responsive wp-post-image\" alt=\"w3\">             </a><a class=\"head\" href=\"#\" title=\" " . $item[1] . "\">" . $item[1] . "</a>
+              <p>Expires On :" .$item[5] . "</p>
+                              
+                <h4 class=\"text-center cash-back\">No Cashback</h4>
+              
+                                              <div class=\"text-center\" data-id=\"get_the_coupon_code\"> 
+                  <!--<a data-text=\"\" class=\"btn get_coupon_code\" id=\"get_coupon_code\"></a>-->
+                  <a href=\"http://freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/\" class=\"btn get_coupon_code\">get coupon code</a>
+                </div>
+                                            
+                          </div>
+            <ul class=\"btm-info\">
+                                                                    </ul>
+                        </div>
+          </li>";
+        }
+
+      ?>
+
+        
+        </ul>
+      </div>
+      
+</section>
 
 
 
