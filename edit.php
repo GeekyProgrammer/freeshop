@@ -1,20 +1,58 @@
-<?php 
+<?php
 
 require_once "config.php";
 
 session_start();
 
-if(!isset($_SESSION['uname'])) {
-  header("location: dashboard.php");
+$data = $_GET['data']; 
+
+if(isset($_SESSION['uname']))
+{
+	if ($_SERVER['REQUEST_METHOD'] == "POST")
+	{
+
+		$sql = "UPDATE offers SET offer_title = ?, offer_description = ?, offer_type = ?, offer_img = ?, offer_expiry = ?, timestamp = ? WHERE offer_id = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+
+  if($stmt)
+    {
+      mysqli_stmt_bind_param($stmt, "sssssss", $param_otitle, $param_odescription, $param_otype, $param_img, $param_oexpiry, $param_timestamp, $param_oid);
+
+      # Set the value of param username
+      $param_otitle = trim($_POST['title']);
+      $param_odescription = trim($_POST['description']);
+      $param_otype = trim($_POST['type']);
+      $param_img = trim($_POST['img_file']);
+      $param_oexpiry = trim($_POST['expiry']);	
+      $param_timestamp = date('Y-m-d H:i:s');
+      $param_oid = $data[0];
+
+      if(mysqli_stmt_execute($stmt))
+      {
+        mysqli_stmt_store_result($stmt);
+
+        header("location: dashboard.php");
+
+
+      }
+
+      else {
+
+      	echo "Something Wrong";
+      }
+
+    }
+
+
+
+	}
+
+
+
+  
+
 }
 
-else
-{
-  #if logged in then show the coupons.
-  $sql = mysqli_query($conn, "SELECT * FROM OFFERS");
-  $data = mysqli_fetch_all($sql);
-  $count = count($data);
-}
 
 ?>
 
@@ -50,7 +88,7 @@ else
 <!--===============================================================================================-->
 </head>
 <body style="background-image: url('images/adbg.jpg');">
-
+	
 	<h1 class="login100-form-title" style="color: black; ">Welcome To Admin Panel.</h1>
 
 	<br><br><br><br><br>
@@ -58,75 +96,62 @@ else
 	<h1 style="color: black ; ">Basic Functionalities</h1>
 	<div class="text-left">
 
-	<a href="\edit\0"><button class="btn btn-dark">Add New Offers</button></a>
+	<a href="dashboard.php"><button class="btn btn-dark">Dashboard</button></a>
     <a href="dblogout.php"><button class="btn btn-dark">Log Out</button></a>
 		
 	</div>
 	
     <hr>
 
-    <br><br><br><br><br>
-
-    <h1>Upload Files Here!!!</h1>
-  <form action="uploader.php" method="post" enctype="multipart/form-data">
-    <input type="file" name="fileToUpload" id="fileToUpload" required>
-     <input type="submit" value="Upload Image" name="submit" class="btn btn-dark">
-  </form>
-  <hr>
-
-  <br><br><br><br><br>
-
-  	<h1>Edit Your Posts:</h1>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Offer ID</th>
-        <th>Offer Title</th>
-        <th>Offer Type</th>
-        <th>Offer Expiry</th>
-        <th>Image File Name</th>
-        <th>Edit </th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-
-    <?php 
-
-    	    	
-    	    	#$decompressed = unserialize($compressed);
 
 
-    	#echo "<pre>";
-   
-    	#print_r($decompressed);
 
+    <h1>Add/Edit Your Posts:</h1>
 
-    foreach ($data as $item) {
-
-    	$compressed = serialize($item);
-
-      echo "<tr>
-        <td>" . $item[0] . "</td>
-        <td>" . $item[1] . "</td>
-        <td>" . $item[3] . "</td>
-        <td>" . $item[5] . "</td>
-        <td>" . $item[4] . "</td>
-        <td><a href=\"edit.php?data[]=". $item[0] . "&data[]=". $item[1]. "&data[]=". $item[2]. "&data[]=". $item[3]. "&data[]=". $item[4]. "&data[]=". $item[5]. "&data[]=". $item[6] . "\"><button class=\"btn btn-dark\" name = \"submit\">Edit</button></a></td>
-        <td><a href=\"\"><button class=\"btn btn-dark\">Delete</button></a></td>
-      </tr>";
-    }
-
-
-     ?>
-    </tbody>
-  </table>
-  	
-  
+  <form name="sentMessage" method="post" action="" id="contactForm" >
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Title</label>
+              <input type="text" class="form-control" name="title" placeholder="Title" id="name" required data-validation-required-message="Please enter your name." value="<?php echo $data[1]; ?>">.
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Description</label>
+				<textarea rows="5" name="description" class="form-control" placeholder="Decription" id="message" required data-validation-required-message="Decription"><?php echo $data[2]; ?></textarea>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+              <label>Offer Type</label>
+              <input type="text" name="type" class="form-control" placeholder="Caption" id="type" required data-validation-required-message="Please enter your phone number." value="<?php echo $data[3]; ?>">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>offer Expiry</label>
+              <input type="date" name="expiry" value="<?php echo $data[5]; ?>">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Image File</label>
+              <input name="img_file" class="form-control" placeholder="Image File" id="message" value="<?php echo $data[4]; ?>"></input>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <br>
+          <div id="success"></div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-dark" id="sendMessageButton">confirm</button>
+          </div>
+        </form>
 
 	
-	
-	</div>
 	
 
 	<div id="dropDownSelect1"></div>

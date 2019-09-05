@@ -14,7 +14,6 @@ if(isset($_SESSION['username']))
   exit;
 }
 
-require_once "config.php";
 
 $username = $password = "";
 $err = "";

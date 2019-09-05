@@ -12,11 +12,13 @@ if(isset($_SESSION['uname']))
   exit;
 }
 
+$username = $password = "";
+$err = "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+
+if($_SERVER['REQUEST_METHOD'] == "POST")
 {
 
-	echo ($_POST['username']);
 	if(empty(trim($_POST['username'])) || empty(trim($_POST['password'])))
   	{
 
@@ -28,18 +30,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     	$password = trim($_POST['password']);
   	}
 
-  	if ($username == $admin_uname && $password == $admin_pass) 
+  	if ($username == admin_uname && $password == admin_pass) 
   	{
 
   		session_start();
-  		$_SESSION['uname'] = $admin_uname;
+  		$_SESSION['uname'] = admin_uname;
   		header("location: dbpage.php");
 
   	}
 
   	else 
   	{
-  		header("location: dashboard.php");
+  		echo "<script> alert(\"Invalid Username or Password \") </script>";
   	}
 
 }
@@ -90,7 +92,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 				<span class="login100-form-title p-b-41">
 					Admin Panel Login
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5" method="POST" action="">
+				<form action="" class="login100-form validate-form p-b-33 p-t-5" method="post">
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
 						<input class="input100" type="text" name="username" placeholder="User name">
@@ -103,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 					</div>
 
 					<div class="container-login100-form-btn m-t-32">
-						<input type="submit" value="Login"  class="login100-form-btn">
+						<input type="submit" value="Login"  class="btn btn-dark">
 					</div>
 
 				</form>
