@@ -85,6 +85,7 @@ else
         <th>Offer Type</th>
         <th>Offer Expiry</th>
         <th>Image File Name</th>
+        <th>Last Updated On</th>        
         <th>Edit </th>
         <th>Delete</th>
       </tr>
@@ -112,6 +113,7 @@ else
         <td>" . $item[3] . "</td>
         <td>" . $item[5] . "</td>
         <td>" . $item[4] . "</td>
+        <td>" . $item[6] . "</td>
         <td><a href=\"edit.php?data[]=". $item[0] . "&data[]=". $item[1]. "&data[]=". $item[2]. "&data[]=". $item[3]. "&data[]=". $item[4]. "&data[]=". $item[5]. "&data[]=". $item[6] . "\"><button class=\"btn btn-dark\" name = \"submit\">Edit</button></a></td>
         <td><a href=\"delete.php?id=" . $item[0] . "\"><button class=\"btn btn-dark\">Delete</button></a></td>
       </tr>";
