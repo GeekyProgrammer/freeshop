@@ -8,48 +8,88 @@ $data = $_GET['data'];
 
 if(isset($_SESSION['uname']))
 {
-	if ($_SERVER['REQUEST_METHOD'] == "POST")
-	{
 
-		$sql = "UPDATE offers SET offer_title = ?, offer_description = ?, offer_type = ?, offer_img = ?, offer_expiry = ?, timestamp = ? WHERE offer_id = ?";
-  $stmt = mysqli_prepare($conn, $sql);
-
-  if($stmt)
+  if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
-      mysqli_stmt_bind_param($stmt, "sssssss", $param_otitle, $param_odescription, $param_otype, $param_img, $param_oexpiry, $param_timestamp, $param_oid);
-
-      # Set the value of param username
-      $param_otitle = trim($_POST['title']);
-      $param_odescription = trim($_POST['description']);
-      $param_otype = trim($_POST['type']);
-      $param_img = trim($_POST['img_file']);
-      $param_oexpiry = trim($_POST['expiry']);	
-      $param_timestamp = date('Y-m-d H:i:s');
-      $param_oid = $data[0];
-
-      if(mysqli_stmt_execute($stmt))
-      {
-        mysqli_stmt_store_result($stmt);
-
-        header("location: dashboard.php");
 
 
-      }
+       if ($data[0] == "")
+       {
+    
+          $sql = "INSERT INTO offers (offer_title, offer_description, offer_type, offer_img, offer_expiry) VALUES (?,?,?,?,?)";
 
-      else {
+          $stmt = mysqli_prepare($conn, $sql);
 
-      	echo "Something Wrong";
-      }
+          if ($stmt) {
+
+          mysqli_stmt_bind_param($stmt, "sssss", $param_otitle, $param_odescription, $param_otype, $param_img, $param_oexpiry);
+
+          $param_otitle = trim($_POST['title']);
+          $param_odescription = trim($_POST['description']);
+          $param_otype = trim($_POST['type']);
+          $param_img = trim($_POST['img_file']);
+          $param_oexpiry = trim($_POST['expiry']);
+
+          if(mysqli_stmt_execute($stmt))
+          {
+            mysqli_stmt_store_result($stmt);
+
+            header("location: dashboard.php");
+
+
+          }
+
+          else {
+
+            echo "Something Wrong";
+          }
+
+        }
 
     }
 
+  else
+  {
+
+    
+
+      $sql = "UPDATE offers SET offer_title = ?, offer_description = ?, offer_type = ?, offer_img = ?, offer_expiry = ?, timestamp = ? WHERE offer_id = ?";
+      $stmt = mysqli_prepare($conn, $sql);
+
+      if($stmt)
+      {
+        mysqli_stmt_bind_param($stmt, "sssssss", $param_otitle, $param_odescription, $param_otype, $param_img, $param_oexpiry, $param_timestamp, $param_oid);
+
+        # Set the value of param username
+        $param_otitle = trim($_POST['title']);
+        $param_odescription = trim($_POST['description']);
+        $param_otype = $_POST['type'];
+        $param_img = trim($_POST['img_file']);
+        $param_oexpiry = trim($_POST['expiry']);  
+        $param_timestamp = date('Y-m-d H:i:s');
+        $param_oid = $data[0];
+
+        if(mysqli_stmt_execute($stmt))
+        {
+          mysqli_stmt_store_result($stmt);
+
+          header("location: dashboard.php");
 
 
-	}
+        }
+
+        else {
+
+          echo "Something Wrong";
+        }
+
+      }
+
+  }
 
 
 
-  
+}
 
 }
 
@@ -126,7 +166,18 @@ if(isset($_SESSION['uname']))
           <div class="control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
               <label>Offer Type</label>
-              <input type="text" name="type" class="form-control" placeholder="Caption" id="type" required data-validation-required-message="Please enter your phone number." value="<?php echo $data[3]; ?>">
+              <select name="type">
+                  <option value="Freebies">Freebies</option>
+                  <option value="Mobile Recharge Offer">Mobile Recharge Offer</option>
+                  <option value="Electronics Offer">Electronics Offer</option>
+                  <option value="Restaurant Offer">Restaurant Offer</option>
+                  <option value="Travels Offer">Travels Offer</option>
+                  <option value="Groceries Offer">Groceries Offer</option>
+                  <option selected="selected">
+                  <?php if($data[3] != ""){echo $data[3];} else {echo "---Select Offer Type---";} ?>
+                  </option>
+
+              </select>
               <p class="help-block text-danger"></p>
             </div>
           </div>

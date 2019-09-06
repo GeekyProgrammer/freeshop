@@ -58,7 +58,7 @@ else
 	<h1 style="color: black ; ">Basic Functionalities</h1>
 	<div class="text-left">
 
-	<a href="\edit\0"><button class="btn btn-dark">Add New Offers</button></a>
+	<?php  echo "<a href=\"edit.php?data[]=". "" . "&data[]=". "" . "&data[]=". "". "&data[]=". "" . "&data[]=". "" . "&data[]=". "" . "&data[]=". "" . "\"><button class=\"btn btn-dark\">Add New Offers</button></a>" ?>
     <a href="dblogout.php"><button class="btn btn-dark">Log Out</button></a>
 		
 	</div>
@@ -76,7 +76,7 @@ else
 
   <br><br><br><br><br>
 
-  	<h1>Edit Your Posts:</h1>
+  	<h1>Edit Your Offers :</h1>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -113,7 +113,7 @@ else
         <td>" . $item[5] . "</td>
         <td>" . $item[4] . "</td>
         <td><a href=\"edit.php?data[]=". $item[0] . "&data[]=". $item[1]. "&data[]=". $item[2]. "&data[]=". $item[3]. "&data[]=". $item[4]. "&data[]=". $item[5]. "&data[]=". $item[6] . "\"><button class=\"btn btn-dark\" name = \"submit\">Edit</button></a></td>
-        <td><a href=\"\"><button class=\"btn btn-dark\">Delete</button></a></td>
+        <td><a href=\"delete.php?id=" . $item[0] . "\"><button class=\"btn btn-dark\">Delete</button></a></td>
       </tr>";
     }
 
