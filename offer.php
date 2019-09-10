@@ -4,19 +4,18 @@ require_once "config.php";
 
 session_start();
 
+
+$data = $_GET['data']; 
+
 if(isset($_SESSION['loggedin']) == false) {
   header("location: login.php");
 }
-
-else
-{
-  #if logged in then show the coupons.
-  $sql = mysqli_query($conn, "SELECT * FROM OFFERS");
-  $data = mysqli_fetch_all($sql);
-  $count = count($data);
-}
-
 ?>
+
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -43,6 +42,9 @@ img.emoji {
 <link rel='stylesheet' id='easy-facebook-likebox-animate-css'  href='http://freeshopping.co/wp-content/plugins/easy-facebook-likebox/public/assets/css/animate.css?ver=4.3.3' type='text/css' media='all' />
 <link rel='stylesheet' id='easy-facebook-likebox-popup-styles-css'  href='http://freeshopping.co/wp-content/plugins/easy-facebook-likebox/public/assets/popup/magnific-popup.css?ver=4.3.3' type='text/css' media='all' />
 <link rel='stylesheet' id='rs-plugin-settings-css'  href='http://freeshopping.co/wp-content/plugins/revslider/public/assets/css/settings.css?ver=5.1' type='text/css' media='all' />
+<style id='rs-plugin-settings-inline-css' type='text/css'>
+#rs-demo-id {}
+</style>
 <link rel='stylesheet' id='Montserrat-css'  href='http://fonts.googleapis.com/css?family=Montserrat%3A400%2C700&#038;ver=4.6.14' type='text/css' media='all' />
 <link rel='stylesheet' id='Lato-css'  href='http://fonts.googleapis.com/css?family=Lato%3A100%2C300%2C400%2C700%2C900&#038;ver=4.6.14' type='text/css' media='all' />
 <link rel='stylesheet' id='comre-bootstrap-css'  href='http://freeshopping.co/wp-content/themes/freeshopping/css/bootstrap.css?ver=2.0.2' type='text/css' media='all' />
@@ -96,7 +98,7 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
 
  <!--======= TOP BAR =========-->
       
-        <div class="top-bar">
+               <div class="top-bar">
 
             <div class="container">
           
@@ -134,7 +136,6 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
                                           ?>
                                           
                                          </ul>
-
                         
                 <ul class="right-bar-side social_icons">
                   
@@ -183,11 +184,11 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
   <div class="container"> 
  <!--======= LOGO =========-->
       <div class="logo"> 
-        <a href="#" title="logo"><img src="img\logo.png" alt="logo"></a>
+        <a href="http://freeshopping.co/" title="logo"><img src="img\logo.png" alt="logo"></a>
       </div>
  </div>
 
- <nav>
+<nav>
 
             <div class="container"> 
 
@@ -212,75 +213,164 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
                                     </div>
 
 </nav>
+
 </header>
 
-
-<section class="great-deals">
-  <div class="container"> 
-    <!--======= TITTLE =========-->
-    <div class="tittle"> 
-      <h3>Home Page Offers</h3>
-    </div>
-
-
- <div class="search">
-              <form action="index.php" method="get">
-
-<select class="form-control" name="post_type">
-
-    <option>All</option>
-
-          <option value="post">Blog Posts</option>
-        <option value="product">Products</option>
-        <option value="sh_coupons">Coupons</option>
-  
-</select>
-<input class="form-control" name="s" value="" placeholder="Enter your keyword...">
-
-<button type="submit"><i class="fa fa-search"></i></button>
-
-</form> </div>
+<!--======= BANNER =========--><section class="sub-banner">
+  <div class="overlay">
+    <div class="container">
+      <h2> 
+        <?php echo $data[1]; ?>    </h2>
+      <ul class="sub-nav"><li><a href="index.php"><i class="fa fa-home"></i></a>  /  </li><li><a href="#">Deals of the Week</a> / </li><li><?php echo $data[1]; ?></li></ul>    </div>
+  </div>
+</section>
 
 
-    <div class="coupon">
-                
-      <ul class="row _great_deals">
 
-        <br>
+<section class="blog coupon-detail-page woocommerce">
+  <div class="container">
 
-        <?php 
-
-       
-
-        foreach ($data as $item) 
-        {
-          echo " <li class=\"col-sm-4\">
-          <div class=\"coupon-inner\">
-            <div class=\"top-tag\"> <span class=\"ribn-red\"><span>offer</span></span> <span class=\"star\"><i class=\"fa fa-star-o\"></i></span> </div>
-            <a href=\"offer.php?data[]=". $item[0] . "&data[]=". $item[1]. "&data[]=". $item[2]. "&data[]=". $item[3]. "&data[]=". $item[4]. "&data[]=". $item[5]. "&data[]=". $item[6] . "\"></a><div class=\"c-img\"><a href=\"offer.php?data[]=". $item[0] . "&data[]=". $item[1]. "&data[]=". $item[2]. "&data[]=". $item[3]. "&data[]=". $item[4]. "&data[]=". $item[5]. "&data[]=". $item[6] . "\">
-              <img width=\"324\" height=\"143\" src=\"img/". $item[4] . "\" class=\"img-responsive wp-post-image\" alt=\"w3\"></a><a class=\"head\" href=\"offer.php?data[]=". $item[0] . "&data[]=". $item[1]. "&data[]=". $item[2]. "&data[]=". $item[3]. "&data[]=". $item[4]. "&data[]=". $item[5]. "&data[]=". $item[6] . "\" title=\" " . $item[1] . "\">" . $item[1] . "</a>
-              <p>Expires On :" .$item[5] . "</p>
-                              
-                <h4 class=\"text-center cash-back\">No Cashback</h4>
-              
-                                              <div class=\"text-center\" data-id=\"get_the_coupon_code\"> 
-                  <!--<a data-text=\"\" class=\"btn get_coupon_code\" id=\"get_coupon_code\"></a>-->
-                  <a href=\"http://freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/\" class=\"btn get_coupon_code\">get coupon code</a>
-                </div>
-                                            
-                          </div>
-            <ul class=\"btm-info\">
-                                                                    </ul>
-                        </div>
-          </li>";
-        }
-
-      ?>
-
-        
-        </ul>
-      </div>
+    
+    <ul class="row">
       
+      <!-- end sidebar -->
+      <li class="col-sm-9">
+                  <div class="row">
+            <div class="col-md-4">
+              
+              <img width="358" height="256" src="http://freeshopping.co/wp-content/uploads/2017/08/w3.jpg" class="img-responsive wp-post-image" alt="w3" srcset="http://freeshopping.co/wp-content/uploads/2017/08/w3.jpg 358w, http://freeshopping.co/wp-content/uploads/2017/08/w3-300x215.jpg 300w" sizes="(max-width: 358px) 100vw, 358px">             
+              <h4 class="text-center cash-back">No Cashback</h4>
+              
+                              
+                                        
+                                    <div class="text-center"> <a href="" class="btn get_coupon_code" data-text="" id="get_coupon_code1324" target="blank">get coupon code</a> </div>
+                                
+                                <!-- Modal -->
+                <div class="modal fade" id="myModal1324" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><?php echo $data[1]; ?></h4>
+                      </div>
+                      <div class="modal-body">
+                                              </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              
+              <div class="share-post text-center">
+                <h5 class="text-uppercase">share this post</h5>
+                <ul class="social_icons">
+                  <li class="facebook"><a href="javascript:void(0);" title="Facebook"><i class="fa fa-facebook st_facebook_large" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span class="stLarge" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/facebook_32.png&quot;);"></span></span></i></a></li>
+                  <li class="twitter"><a href="javascript:void(0);" title="Twitter"><i class="fa fa-twitter st_twitter_large" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span class="stLarge" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/twitter_32.png&quot;);"></span></span></i></a></li>
+                  <li class="linkedin"><a href="javascript:void(0);" title="Linkedin"><i class="fa fa-linkedin st_linkedin_large" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span class="stLarge" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/linkedin_32.png&quot;);"></span></span></i></a></li>
+                  <li class="tumblr"><a href="javascript:void(0);" title="Tumblr"><i class="fa fa-tumblr st_tumblr_large" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span class="stLarge" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/tumblr_32.png&quot;);"></span></span></i></a></li>
+                </ul>
+                <script type="text/javascript">var switchTo5x=true;</script> 
+                <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script> 
+                <script type="text/javascript">stLight.options({publisher: "e5f231e9-4404-49b7-bc55-0e8351a047cc", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script> 
+              </div>
+<div class="text-center">
+<h5 class="text-uppercase">like this post</h5>
+<ul class="small-tag text-center">
+                                <li><span class="error"></span><span class="save-success"></span></li>
+                                <li> 
+                                    <span>
+                                        <a onclick="ComrecouponVote(1324, 1, this);" title="Thumbs up"><span class="voting-thumb-up">58</span> <i class="fa fa-thumbs-up"></i></a>
+                                        <a onclick="ComrecouponVote(1324, -1, this);" title="Thumbs Down"><span class="voting-thumb-down">34</span> <i class="fa fa-thumbs-down"></i></a>
+                                    </span> 
+                                                                            <!--<a class="btn btn-small btn-border" data-target="#myModal" data-toggle="modal" href="javascipt:void(0)"><i class="fa fa-heart"></i> SAVE</a>
+                                    
+
+                                    <span class="greenTxt "><i class="fa fa-user"></i> 4 People Used </span>  -->
+                            </li></ul></div>
+            </div>
+            
+            <!--======= BLOG POST=========-->
+            <div class="col-md-8">
+              
+              <div class="blog-post">
+                <a href="http://freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/" title="Steal Offer : Min. 40% OFF On Beauty Products From just Rs.64 + FREE Shipping" class="title-hed">
+                <?php echo $data[1]; ?>
+                </a> 
+                              
+                <p>Offer Description</p>
+
+                <?php echo $data[2]; ?>
+
+
+<div id="wpdevar_comment_3" style="width:100%;text-align:left;">
+    <span style="padding: 10px;font-size:23px;font-family:Times New Roman,Times,Georgia,serif;color:#000000;">Comments</span>
+    <div class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" data-href="http://freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/" data-order-by="social" data-numposts="100" data-width="100%" style="display: block; width: 100%;" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=1740357446214413&amp;container_width=555&amp;height=100&amp;href=http%3A%2F%2Ffreeshopping.co%2Fsh_coupons%2Fsteal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping%2F&amp;locale=en_US&amp;numposts=100&amp;order_by=social&amp;sdk=joey"><span style="vertical-align: bottom; width: 100%; height: 332px;"><iframe name="f8be80e30c000c" width="1000px" height="100px" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/plugins/comments.php?app_id=1740357446214413&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D44%23cb%3Dfd4c5805401d0c%26domain%3Dfreeshopping.co%26origin%3Dhttp%253A%252F%252Ffreeshopping.co%252Ff1460697747fc04%26relation%3Dparent.parent&amp;container_width=555&amp;height=100&amp;href=http%3A%2F%2Ffreeshopping.co%2Fsh_coupons%2Fsteal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping%2F&amp;locale=en_US&amp;numposts=100&amp;order_by=social&amp;sdk=joey" style="border: none; visibility: visible; width: 100%; height: 332px;" class=""></iframe></span></div></div>               
+                                
+                
+              
+              </div>
+            </div>
+          </div>
+
+
+
+
+<!--======= SHARE POST =========-->
+        
+          <!-- end button -->
+          <div class="clearfix"></div>
+<!--=======  COMMENTS =========-->
+                    <div id="disqus_thread"></div>
+            <script type="text/javascript">
+              /* * * CONFIGURATION 
+
+VARIABLES: THIS CODE IS ONLY AN EXAMPLE * * */
+              var disqus_shortname = 'freeshopping'; // Required - Replace 
+
+example with your forum shortname
+              var disqus_identifier = 
+
+'disqus_thread1324';
+              var disqus_title = 'Steal Offer : Min. 40% OFF On Beauty Products From just Rs.64 + FREE Shipping';
+              var disqus_url = 'http://freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/';
+
+              /* * * DON'T EDIT BELOW THIS 
+
+LINE * * */
+              (function() {
+                  var dsq = 
+
+document.createElement('script'); dsq.type = 'text/javascript'; dsq.async 
+
+= true;
+                  dsq.src = '//' + 
+
+disqus_shortname + '.disqus.com/embed.js';
+                  
+
+(document.getElementsByTagName('head')[0] || 
+
+document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+      
+              </li>
+
+            <li class="col-sm-3">
+        <div class="blog-side-bar">
+          <div id="facebooklikebox-2" class="blog-side-bar widget widget_FacebookLikeBox"><h5>Like Us On Facebook</h5><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like-box href="https://www.facebook.com/freeshoppingpage" width="350" show_faces="true" border_color="AAAAAA" stream="true" header="true" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=1740357446214413&amp;container_width=0&amp;header=true&amp;href=https%3A%2F%2Fwww.facebook.com%2Ffreeshoppingpage&amp;locale=en_US&amp;sdk=joey&amp;show_faces=true&amp;stream=true&amp;width=350"><span style="vertical-align: bottom; width: 350px; height: 540px;"><iframe name="f23e587bc932f8" width="350px" height="1000px" title="fb:like_box Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/plugins/like_box.php?app_id=1740357446214413&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D44%23cb%3Df12b178e54862ec%26domain%3Dfreeshopping.co%26origin%3Dhttp%253A%252F%252Ffreeshopping.co%252Ff1460697747fc04%26relation%3Dparent.parent&amp;container_width=0&amp;header=true&amp;href=https%3A%2F%2Fwww.facebook.com%2Ffreeshoppingpage&amp;locale=en_US&amp;sdk=joey&amp;show_faces=true&amp;stream=true&amp;width=350" style="border: none; visibility: visible; width: 350px; height: 540px;" class=""></iframe></span></fb:like-box>
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="standard" show_faces="yes" width="292" action="like" font="arial" colorscheme="dark" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=1740357446214413&amp;color_scheme=dark&amp;container_width=0&amp;font=arial&amp;href=http%3A%2F%2Ffreeshopping.co%2Fsh_coupons%2Fsteal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping%2F&amp;layout=standard&amp;locale=en_US&amp;sdk=joey&amp;show_faces=true&amp;width=292"></fb:like></div><div id="text-8" class="blog-side-bar widget widget_text"><h5>Google Search Bar</h5>      <div class="textwidget"><form action="http://www.google.co.in" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-6969097615174142:2355412633">
+    <input type="hidden" name="ie" value="UTF-8">
+    <input type="text" name="q" size="55" placeholder="Custom Search" style="border: 1px solid rgb(126, 157, 185); padding: 2px; background: url(&quot;https://www.google.com/cse/static/images/1x/googlelogo_lightgrey_46x16dp.png&quot;) left center no-repeat rgb(255, 255, 255); text-indent: 48px;">
+    <input type="submit" name="sa" value="Search">
+  </div>
+<input name="siteurl" type="hidden" value="freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/"><input name="ref" type="hidden" value="localhost/freeshop/index.php"><input name="ss" type="hidden" value=""></form>
+   
+          
 </section>
 
 

@@ -198,8 +198,8 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
           
                 <ul class="left-bar-side">
 
-                                                            <li> <a href="http://freeshopping.co/sign-up/"><i class="fa fa-lock"></i> Login</a> </li>
-                                                        <li> <a href="http://freeshopping.co/register/"><i class="fa fa-lock"></i> Register</a> </li>
+                                                            <li> <a href="login.php"><i class="fa fa-lock"></i> Login</a> </li>
+                                                        <li> <a href="register.php"><i class="fa fa-lock"></i> Register</a> </li>
                                           <li> <a href="http://freeshopping.co/career"><strong>Career with us</strong></a> </li>
                                          </ul>
 
