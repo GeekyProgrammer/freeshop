@@ -11,7 +11,7 @@ if(isset($_SESSION['loggedin']) == false) {
 else
 {
   #if logged in then show the coupons.
-  $sql = mysqli_query($conn, "SELECT * FROM OFFERS ");
+  $sql = mysqli_query($conn, "SELECT * FROM OFFERS WHERE offer_type = 'Travels Offer' ");
   $data = mysqli_fetch_all($sql);
   $count = count($data);
 }
@@ -81,31 +81,6 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
 <link rel="alternate" type="application/json+oembed" href="http://freeshopping.co/wp-json/oembed/1.0/embed?url=http%3A%2F%2Ffreeshopping.co%2F" />
 <link rel="alternate" type="text/xml+oembed" href="http://freeshopping.co/wp-json/oembed/1.0/embed?url=http%3A%2F%2Ffreeshopping.co%2F&#038;format=xml" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.search-box input[type="text"]').on("keyup input", function(){
-        /* Get input value on change */
-        var inputVal = $(this).val();
-        var resultDropdown = $(this).siblings(".result");
-        if(inputVal.length){
-            $.get("backend-search.php", {term: inputVal}).done(function(data){
-                // Display the returned data in browser
-                resultDropdown.html(data);
-            });
-        } else{
-            resultDropdown.empty();
-        }
-    });
-    
-    // Set search input value on click of result item
-    $(document).on("click", ".result p", function(){
-        $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
-        $(this).parent(".result").empty();
-    });
-});
-</script>
 
 </head>
 
@@ -244,25 +219,22 @@ $(document).ready(function(){
   <div class="container"> 
     <!--======= TITTLE =========-->
     <div class="tittle"> 
-      <h3>Home Page Offers</h3>
-    </div>
-
-    <div class="search-box search">
-        <input type="text" autocomplete="off" class="form-control" name="s" value="" placeholder="Enter your keyword..." />
-        <div class="result"></div>
+      <h3>Travel Offers</h3>
     </div>
 
 
- <!-- <div class="search">
-              <form action="" method="get">
+ <div class="search">
+              <form action="index.php" method="get">
+
+
 <input class="form-control" name="s" value="" placeholder="Enter your keyword...">
 
 <button type="submit"><i class="fa fa-search"></i></button>
 
-</form> </div> -->
+</form> </div>
 
 
-    <div class="coupon result">
+    <div class="coupon">
                 
       <ul class="row _great_deals">
 

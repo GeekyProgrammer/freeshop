@@ -27,7 +27,7 @@ if(isset($_SESSION['uname']))
           mysqli_stmt_bind_param($stmt, "sssss", $param_otitle, $param_odescription, $param_otype, $param_img, $param_oexpiry);
 
           $param_otitle = trim($_POST['title']);
-          $param_odescription = trim($_POST['description']);
+          $param_odescription = $_POST['description'];
           $param_otype = trim($_POST['type']);
           $param_img = trim($_POST['img_file']);
           $param_oexpiry = trim($_POST['expiry']);
@@ -70,6 +70,7 @@ if(isset($_SESSION['uname']))
         $param_oexpiry = trim($_POST['expiry']);  
         $param_timestamp = date('Y-m-d H:i:s');
         $param_oid = $data[0];
+        echo $abc;
 
         if(mysqli_stmt_execute($stmt))
         {
@@ -104,6 +105,8 @@ if(isset($_SESSION['uname']))
 <html lang="en">
 <head>
 	<title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/froala-editor@3.0.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.0.5/js/froala_editor.pkgd.min.js"></script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -159,12 +162,21 @@ if(isset($_SESSION['uname']))
             </div>
           </div>
           <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Description</label>
-				<textarea rows="5" name="description" class="form-control" placeholder="Decription" id="message" required data-validation-required-message="Decription"><?php echo $data[2]; ?></textarea>
-              <p class="help-block text-danger"></p>
+            <div class="form-group floating-label-form-group controls fr-view" id="example">
+
+              <label>Description : </label>
+
+
+                        <textarea rows="5"  name="description" class="form-control" placeholder="Decription"  required data-validation-required-message="Decription">
+                          <?php echo $data[2]; ?>
+                    </textarea>              <p class="help-block text-danger"></p>
+
+                        
+              				
+
             </div>
           </div>
+
           <div class="control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
               <label>Offer Type</label>
@@ -203,6 +215,7 @@ if(isset($_SESSION['uname']))
             <button type="submit" class="btn btn-dark" id="sendMessageButton">confirm</button>
           </div>
         </form>
+       
 
 	
 	

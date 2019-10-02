@@ -295,13 +295,15 @@ jQuery(document).ready(function(jQuery){jQuery.datepicker.setDefaults({"closeTex
             <div class="col-md-8">
               
               <div class="blog-post">
-                <a href="http://freeshopping.co/sh_coupons/steal-offer-min-40-off-on-beauty-products-from-just-rs-64-free-shipping/" title="Steal Offer : Min. 40% OFF On Beauty Products From just Rs.64 + FREE Shipping" class="title-hed">
+                <a href="#" title="Steal Offer : Min. 40% OFF On Beauty Products From just Rs.64 + FREE Shipping" class="title-hed">
                 <?php echo $data[1]; ?>
                 </a> 
                               
                 <p>Offer Description</p>
 
-                <?php echo $data[2]; ?>
+                  <?php echo $data[2]; ?>
+
+                
 
 
 <div id="wpdevar_comment_3" style="width:100%;text-align:left;">
